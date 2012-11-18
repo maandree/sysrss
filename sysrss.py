@@ -84,7 +84,8 @@ class SysRSS:
             exit(254)
         
         for site in self.sites:
-            if site.interval < 1:
+            site.interval = int(site.interval)
+            if site.interval <= 0:
                 print('Site %s does not have a positive interval and will therefore only be checked right now.' % site.name)
             message = site()
             if (message is not None) and (len(message) > 0):
