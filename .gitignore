@@ -1,0 +1,60 @@
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided the copyright
+# notice and this notice are preserved.  This file is offered as-is,
+# without any warranty.
+
+
+## Private non-staging workspace
+##################################
+
+/_/
+
+
+## Temporary and backup files
+###############################
+
+*~
+\#*\#
+.\#
+*.swp
+*.bak
+
+
+## Hidden files
+#################
+
+.*
+.*/
+!.gitignore
+
+
+## Distribution
+#################
+
+/dist/archlinux
+!/dist/archlinux/*/PKGBUILD
+!/dist/archlinux/*/*.install
+!/dist/archlinux/*/*.patch
+
+
+## Archives
+#############
+
+*.gz
+
+
+## Built documentation
+########################
+
+*.info
+*.pdf
+*.ps
+*.dvi
+
+
+## Python
+###########
+
+*.pyc
+__pycache__/
+
