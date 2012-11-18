@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
+import time
 import datetime
 from subprocess import Popen, PIPE
 
@@ -83,14 +84,30 @@ class SysRSS:
             print('There are no sites, update %s.' % (self.root + 'sites'))
             exit(254)
         
+        proper = []
         for site in self.sites:
             site.interval = int(site.interval)
             if site.interval <= 0:
                 print('Site %s does not have a positive interval and will therefore only be checked right now.' % site.name)
+            else:
+                proper.append(site)
             message = site()
             if (message is not None) and (len(message) > 0):
                 self.publish(site.name, message)
-    
+        self.sites = proper
+        
+        while True:
+            next = min(self.sites, key = lambda site : site.next).next
+            for site in self.sites:
+                if next > 0:
+                    time.sleep(next * 60)
+                if site.next == next:
+                    message = site()
+                    if (message is not None) and (len(message) > 0):
+                        self.publish(site.name, message)
+                    site.next = site.interval
+                else:
+                    site.next -= next
     
     
     '''
@@ -283,6 +300,7 @@ class Site:
         self.name = name
         self.interval = interval
         self.implementation = implementation
+        self.next = interval
     
     
     
