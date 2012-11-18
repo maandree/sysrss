@@ -31,7 +31,7 @@
 ## Distribution
 #################
 
-/dist/archlinux
+/dist/archlinux/*/*
 !/dist/archlinux/*/PKGBUILD
 !/dist/archlinux/*/*.install
 !/dist/archlinux/*/*.patch
