@@ -77,6 +77,18 @@ class SysRSS:
     def __init__(self):
         self.root = os.getenv('HOME') + '/.sysrss/'
         self.sysinit()
+        if not self.initSites():
+            exit(255)
+        if len(self.sites) == 0:
+            print('There are no sites, update %s.' % (self.root + 'sites'))
+            exit(254)
+        
+        for site in self.sites:
+            if site.interval < 1:
+                print('Site %s does not have a positive interval and will therefore only be checked right now.' % site.name)
+            message = site()
+            if (message is not None) and (len(message) > 0):
+                self.publish(site.name, message)
     
     
     
@@ -111,7 +123,7 @@ class SysRSS:
                 file.write('</rss>\n'.encode('utf-8'))
                 file.write('\n'.encode('utf-8'))
                 file.flush()
-            printf('Created rss file %s, your should set you news feed aggregator to syndicate this file.\n', self.root + 'maintenance.rss')
+            printf('Created rss file, %s, your should set you news feed aggregator to syndicate this file.\n', self.root + 'maintenance.rss')
             flush()
             self.pubdate = date
             self.publish('Welcome to SysRSS', 'This is going to be so awesome! 😄 \n\nEx animo\nSysRSS\n\n')
@@ -123,6 +135,41 @@ class SysRSS:
             data = data[data.find('<pubDate>') + len('<pubDate>'):]
             data = data[:data.find('</')]
             self.pubdate = data
+    
+    
+    '''
+    Initialise site list
+    
+    @return  :boolean  Whether the program can continue
+    '''
+    def initSites(self):
+        self.sites = []
+        sites = self.sites
+        sitefile = self.root + 'sites'
+        if os.path.exists(sitefile):
+            with open(sitefile, 'rb') as file:
+                code = file.read().decode('utf8', 'replace') + '\n'
+                code = compile(code, sitefile, 'exec')
+                exec(code)
+        else:
+            with open(sitefile, 'wb') as file:
+                file.write('# -*- mode: python, coding: utf-8  -*-\n'.encode('utf-8'))
+                file.write('\n'.encode('utf-8'))
+                file.write('# self.sites (alternatively sites) is a list that you\n'.encode('utf-8'))
+                file.write('# should fill with Site:s, a site descripts a subsystem\n'.encode('utf-8'))
+                file.write('# that generates updates. Site\'s constructor takes 3\n'.encode('utf-8'))
+                file.write('# arguments: name, interval, implementation. The first\n'.encode('utf-8'))
+                file.write('# `name` is the name of the subsystme, it is displayed\n'.encode('utf-8'))
+                file.write('# as the title on all updates. `interval` is the number\n'.encode('utf-8'))
+                file.write('# is minutes between update checks. `implementation` is\n'.encode('utf-8'))
+                file.write('# function or functor that returns an update message,\n'.encode('utf-8'))
+                file.write('# or an empty string if there are no updates.\n'.encode('utf-8'))
+                file.write('\n'.encode('utf-8'))
+                file.flush()
+            printf('Created site file, %s, you should fill it in and then restart this program.\n', sitefile)
+            flush()
+            return False
+        return True
     
     
     '''
@@ -148,7 +195,7 @@ class SysRSS:
             file.write('    <description>System maintenance notification RSS</description>\n'.encode('utf-8'))
             file.write('    <link>http://localhost/</link>\n'.encode('utf-8'))
             file.write(('    <lastBuildDate>%s</lastBuildDate>\n' % date).encode('utf-8'))
-            file.write(('    <pubDate>%s</pubDate>\n' % self.pubdate).encode('utf-8'))
+            file.write(('    <pubDate>%s</pubDate>\n\n' % self.pubdate).encode('utf-8'))
             with open(self.root + 'log', 'rb') as logfile:
                 file.write(logfile.read())
             file.write('  </channel>\n'.encode('utf-8'))
@@ -168,7 +215,7 @@ class SysRSS:
     '''
     def makeNews(self, system, message):
         def makeUglyButReadable(data):
-            data = data.replace(']]>', ']]>]]<![CDATA[>')
+            data = data.replace(']]>', ']]]]><![CDATA[>')
             data = data.replace('\n', '<br>') # [sic!]
             return '<![CDATA[' + data + ']]>'
         return('<item>\n  <title>%s</title>\n  <guid>%s</guid>\n  <pubDate>%s</pubDate>\n  <description>%s</description>\n</item>\n\n' %
@@ -217,6 +264,34 @@ class SysRSS:
         time = time.replace('[12]', 'Dec')
         
         return time
+
+
+
+'''
+Subsystem definition class
+'''
+class Site:
+    '''
+    Constructor
+    
+    @param  name                   System name
+    @param  interval:int           Generation interval in minutes
+    @param  implementation:()→str  Publish message generator, empty string is ignored
+    '''
+    def __init__(self, name, interval, implementation):
+        self.name = name
+        self.interval = interval
+        self.implementation = implementation
+    
+    
+    
+    '''
+    Invocation method
+    
+    @return  :str  Message to publish
+    '''
+    def __call__(self):
+        return self.implementation()
 
 
 
