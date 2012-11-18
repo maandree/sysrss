@@ -67,6 +67,8 @@ def flush():
 
 '''
 Mane class
+
+@dependency  util-linux::uuidgen
 '''
 class SysRSS:
     '''
@@ -75,6 +77,7 @@ class SysRSS:
     def __init__(self):
         self.root = os.getenv('HOME') + '/.sysrss/'
         self.sysinit()
+    
     
     
     '''
@@ -110,6 +113,78 @@ class SysRSS:
                 file.flush()
             printf('Created rss file %s, your should set you news feed aggregator to syndicate this file.\n', self.root + 'maintenance.rss')
             flush()
+            self.pubdate = date
+            self.publish('Welcome to SysRSS', 'This is going to be so awesome! 😄 \n\nEx animo\nSysRSS\n\n')
+        else:
+            data = None
+            with open(self.root + 'maintenance.rss', 'rb') as file:
+                data = file.read()
+            data = data.decode('utf8', 'replace')
+            data = data[data.find('<pubDate>') + len('<pubDate>'):]
+            data = data[:data.find('</')]
+            self.pubdate = data
+    
+    
+    '''
+    Publish a news item to the RSS
+    
+    @param  system:str   The subsystem that generated the message
+    @param  message:str  Message to display
+    '''
+    def publish(self, system, message):
+        date = self.getTime()
+        addendum = self.makeNews(system, message).encode('utf-8')
+        
+        with open(self.root + 'log', 'ab') as file:
+            file.write(addendum)
+            file.flush()
+        printf('The feed log as been updated with %s.\n', system)
+        
+        with open(self.root + 'tmp', 'wb') as file:
+            file.write('<?xml version="1.0" encoding="utf-8"?>\n'.encode('utf-8'))
+            file.write('<rss version="2.0">\n'.encode('utf-8'))
+            file.write('  <channel>\n'.encode('utf-8'))
+            file.write('    <title>SysRSS</title>\n'.encode('utf-8'))
+            file.write('    <description>System maintenance notification RSS</description>\n'.encode('utf-8'))
+            file.write('    <link>http://localhost/</link>\n'.encode('utf-8'))
+            file.write(('    <lastBuildDate>%s</lastBuildDate>\n' % date).encode('utf-8'))
+            file.write(('    <pubDate>%s</pubDate>\n' % self.pubdate).encode('utf-8'))
+            with open(self.root + 'log', 'rb') as logfile:
+                file.write(logfile.read())
+            file.write('  </channel>\n'.encode('utf-8'))
+            file.write('</rss>\n'.encode('utf-8'))
+            file.write('\n'.encode('utf-8'))
+            file.flush()
+        Popen(['mv', self.root + 'tmp', self.root + 'maintenance.rss']).wait()
+        printf('The feed as been updated with %s.\n', system)
+    
+    
+    '''
+    Generate RSS item
+    
+    @param   system:str   The subsystem that generated the message
+    @param   message:str  Message to display
+    @return  :str         RSS item
+    '''
+    def makeNews(self, system, message):
+        def makeUglyButReadable(data):
+            data = data.replace(']]>', ']]>]]<![CDATA[>')
+            data = data.replace('\n', '<br>') # [sic!]
+            return '<![CDATA[' + data + ']]>'
+        return('<item>\n  <title>%s</title>\n  <guid>%s</guid>\n  <pubDate>%s</pubDate>\n  <description>%s</description>\n</item>\n\n' %
+               (makeUglyButReadable(system), self.generateUUID(), self.getTime(), makeUglyButReadable(message)))
+    
+    
+    '''
+    Generate an UUID
+    
+    @return  An UUID
+    '''
+    def generateUUID(self):
+        uuid = Popen(['uuidgen'], stdout=PIPE).communicate()[0].decode('utf-8', 'replace')
+        if uuid[-1] == '\n':
+            uuid = uuid[:-1]
+        return uuid
     
     
     '''
