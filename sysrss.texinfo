@@ -86,7 +86,7 @@ Texts. A copy of the license is included in the section entitled
 @appendix License of sysrss
 
 @flushleft
-sysrss – Cleanse your system from old MBR codes and boot flags
+sysrss – Let your system generate a maintenance notification RSS
 
 Copyright © 2012, 2013  Mattias Andrée (maandree@@member.fsf.org)
 
