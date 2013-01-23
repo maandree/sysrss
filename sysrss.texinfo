@@ -90,7 +90,8 @@ for monitoring.
 @cindex executing
 @cindex running
 
-
+@command{sysrss} is awesome, it does not take any arguments,
+just run it.
 
 
 
