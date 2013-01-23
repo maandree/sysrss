@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# -*- mode: python, coding: utf-8  -*-
+#!/usr/bin/env python
+# -*- coding: utf-8  -*-
 '''
 sysrss – Let your system generate a maintenance notification RSS
 
