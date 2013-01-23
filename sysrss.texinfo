@@ -55,6 +55,7 @@ Texts. A copy of the license is included in the section entitled
 @menu
 * Overview::                        Overview of @command{sysrss}
 * Invoking::                        Invoking @command{sysrss}
+* Configuring::                     Configuring @command{sysrss}
 * License of sysrss::               Summary of the license of the program
 * GNU General Public License::      The license of the program
 * GNU Free Documentation License::  The license of this manual
@@ -92,6 +93,33 @@ for monitoring.
 
 @command{sysrss} is awesome, it does not take any arguments,
 just run it.
+
+
+@node Configuring
+@chapter Configuring
+@cindex configuring
+@cindex settings
+@cindex sites
+@cindex rc
+@cindex @file{~/.sysrss/sites}
+
+When you start SysRSS for the first time it will generate
+@file{~/.sysrss/sites}, which is a Python 3 script, for you.
+In this file you configure SysRSS's jobs. To create a job, add
+
+@example
+self.sites.append(Site(TITLE, INTERVAL, SITE))
+@end example
+
+where @code{TITLE} is the title that the generated RSS news
+item should have, @code{INTERVAL} is the number of minutes
+between each run of the job, and @code{SITE} is a function
+that you define earlier in the script.
+
+The @code{SITE} function should have no parameters and return
+a string that is the message that the generated RSS news item
+should have. If an empty string is returned no news item is
+generated.
 
 
 
