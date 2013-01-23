@@ -77,7 +77,9 @@ your e-mail client can do that) to monitor something. If
 that you are monitoring will require urgent attention you
 should not use this program, but rather use a program that
 e-mail's your something that you will notice directly, rather
-that once every hour or so.
+that once every hour or so. SysRSS is very similar to cron,
+the main difference is that it makes it easy to generate RSS
+for monitoring.
 
 
 @node Invoking
