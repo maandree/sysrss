@@ -7,7 +7,7 @@
 ## Private non-staging workspace
 ##################################
 
-/_/
+_/
 
 
 ## Temporary and backup files
@@ -57,4 +57,23 @@
 
 *.pyc
 __pycache__/
+
+
+## Aux files
+#############
+
+/sysrss.aux
+/sysrss.cp
+/sysrss.cps
+/sysrss.fn
+/sysrss.ky
+/sysrss.log
+/sysrss.pg
+/sysrss.toc
+/sysrss.tp
+/sysrss.vr
+/sysrss.op
+/sysrss.ops
+/sysrss.pgs
+/sysrss.vrs
 
