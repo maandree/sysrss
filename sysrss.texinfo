@@ -68,6 +68,16 @@ Texts. A copy of the license is included in the section entitled
 @cindex overview
 @cindex description
 
+SysRSS a program that you run either daemonised or just in a
+@command{screen}, or however you want, that let you set up
+``sites'' that runs in a loops with a time interval that you
+choose. These ``sites'' are rutines that generates RSS feeds
+that you can syndicate to in your RSS-aggregator (normally
+your e-mail client can do that) to monitor something. If
+that you are monitoring will require urgent attention you
+should not use this program, but rather use a program that
+e-mail's your something that you will notice directly, rather
+that once every hour or so.
 
 
 @node Invoking
