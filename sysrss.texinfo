@@ -46,7 +46,7 @@ Texts. A copy of the license is included in the section entitled
 @insertcopying
 @page
 @*@*
-@center{`Oh, hello little daemon spawn.'}
+@center `Oh, hello little daemon spawn.'
 @end titlepage
 
 @contents
