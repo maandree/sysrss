@@ -13,7 +13,7 @@ DATA=/share
 
 PROGRAM=sysrss
 BOOK=$(PROGRAM)
-BOOKDIR=./
+BOOKDIR=info/
 
 
 all: info
