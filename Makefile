@@ -7,13 +7,16 @@
 # 
 # [GNU All Permissive License]
 
-PREFIX=/usr
-BIN=/bin
-DATA=/share
+PREFIX = /usr
+DATA = /share
+BIN = /bin
+PKGNAME = sysrss
+COMMAND = sysrss
+LICENSES = $(PREFIX)$(DATA)
 
-PROGRAM=sysrss
-BOOK=$(PROGRAM)
+BOOK=sysrss
 BOOKDIR=info/
+
 
 
 all: info
@@ -53,22 +56,31 @@ dvi.xz: $(BOOK).dvi.xz
 
 
 
-install:
-	mkdir -p "$(DESTDIR)$(PREFIX)$(BIN)"
-	install -m 755 "$(PROGRAM).py" "$(DESTDIR)$(PREFIX)$(BIN)/$(PROGRAM)"
-	mkdir -p "$(DESTDIR)$(PREFIX)$(DATA)/licenses/$(PROGRAM)"
-	mkdir -p "$(DESTDIR)$(PREFIX)$(DATA)/info/"
-	install -m 644 COPYING "$(DESTDIR)$(PREFIX)$(DATA)/licenses/$(PROGRAM)"
-	install -m 644 LICENSE "$(DESTDIR)$(PREFIX)$(DATA)/licenses/$(PROGRAM)"
-	install -m 644 "$(BOOK).info.gz" "$(DESTDIR)$(PREFIX)$(DATA)/info"
+install: install-cmd install-license install-info
+
+install-cmd:
+	install -dm755 "$(DESTDIR)$(PREFIX)$(BIN)"
+	install -m755 sysrss.py "$(DESTDIR)$(PREFIX)$(BIN)/$(COMMAND)"
+
+install-license:
+	install -dm755 "$(DESTDIR)$(LICENSES)/$(PKGNAME)"
+	install -m644 COPYING LICENSE "$(DESTDIR)$(LICENSES)/$(PKGNAME)"
+
+install-info: $(BOOK).info.gz
+	install -dm755 "$(DESTDIR)$(PREFIX)$(DATA)/info"
+	install -m644 "$(BOOK).info.gz" "$(DESTDIR)$(PREFIX)$(DATA)/info/$(PKGNAME).info.gz"
+
 
 uninstall:
-	unlink "$(DESTDIR)$(PREFIX)$(BIN)/$(PROGRAM)"
-	rm -r "$(DESTDIR)$(PREFIX)$(DATA)/licenses/$(PROGRAM)"
-	unlink "$(DESTDIR)$(PREFIX)$(DATA)/info/$(BOOK).info.gz"
+	-rm -- "$(DESTDIR)$(PREFIX)$(BIN)/$(COMMAND)"
+	-rm -- "$(DESTDIR)$(LICENSES)/$(PKGNAME)/COPYING"
+	-rm -- "$(DESTDIR)$(LICENSES)/$(PKGNAME)/LICENSE"
+	-rmdir -- "$(DESTDIR)$(LICENSES)/$(PKGNAME)"
+	-rm -- "$(DESTDIR)$(PREFIX)$(DATA)/info/$(PKGNAME).info.gz"
+
 
 clean:
-	--rm -r *.{t2d,aux,cp,cps,fn,ky,log,pg,pgs,toc,tp,vr,vrs,op,ops,bak,info,pdf,ps,dvi,gz} 2>/dev/null
+	-rm -r *.{t2d,aux,cp,cps,fn,ky,log,pg,pgs,toc,tp,vr,vrs,op,ops,bak,info,pdf,ps,dvi,gz} 2>/dev/null
 
 .PHONY: clean uninstall install
 
