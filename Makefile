@@ -68,7 +68,7 @@ uninstall:
 	unlink "$(DESTDIR)$(PREFIX)$(DATA)/info/$(BOOK).info.gz"
 
 clean:
-	rm -r *.{t2d,aux,cp,cps,fn,ky,log,pg,pgs,toc,tp,vr,vrs,op,ops,bak,info,pdf,ps,dvi,gz} 2>/dev/null || exit 0
+	--rm -r *.{t2d,aux,cp,cps,fn,ky,log,pg,pgs,toc,tp,vr,vrs,op,ops,bak,info,pdf,ps,dvi,gz} 2>/dev/null
 
 .PHONY: clean uninstall install
 
