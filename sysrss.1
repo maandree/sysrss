@@ -1,0 +1,62 @@
+.TH SYSRSS 1
+.SH NAME
+sysrss \- Let your system generate a maintenance notification RSS
+
+.SH SYNOPSIS
+.B sysrss
+
+.SH DESCRIPTION
+.B sysrss
+lets the user setup routines, written in Python 3, that run
+periodically to generate entires in an RSS feed that the use
+can syndicate to in his RSS aggregator (e-mail client can
+usually do this).
+.PP
+.B sysrss
+runs in the foreground, and should be daemonised externally (unless
+you actually want it in the foreground).
+.PP
+.B sysrss
+runs as a user process, meaning that each user using it must have
+their own instance started individually.
+
+.SH OPTIONS
+None.
+
+.SH OPERANDS
+None.
+
+.SH FILES
+.TP
+.IB $HOME /.sysrss/sites
+Created when the program is started for the first time by the user.
+It contains the tasks that shall be ran periodically. It's a Python 3.
+
+To add a task, write a function that doesn't have any parameters but
+returns a string, then run
+.IR "self.sites.append(Site(title, interval, function))" ,
+where
+.I title
+is the that the generated RSS news item should have,
+.I interval
+is the number of minutes between each run of the job, and
+.I function
+is the name of your function.
+The string returned by the your function shall be the
+message of the generated RSS news item. If the empty string
+is returned, no news item is generated.
+
+.TP
+.IB $HOME /.sysrss/log
+Log file.
+
+.TP
+.IB $HOME /.sysrss/maintenance.rss
+RSS-feed to add to your RSS aggregator to get your notifications.
+
+.TP
+.IB $HOME /.sysrss/tmp
+Reserved temporary file.
+
+.SH SEE ALSO
+None.

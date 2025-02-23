@@ -1,23 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8  -*-
-'''
-sysrss – Let your system generate a maintenance notification RSS
-
-Copyright © 2012, 2013  Mattias Andrée (m@maandree.se)
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+# See LICENSE file for copyright and license details.
 
 import os
 import sys
@@ -28,8 +11,7 @@ from subprocess import Popen, PIPE
 
 
 '''
-Hack to enforce UTF-8 in output (in the future, if you see anypony not using utf-8 in
-programs by default, report them to Princess Celestia so she can banish them to the moon)
+Hack to enforce UTF-8 in output
 
 @param  text:str  The text to print (empty string is default)
 @param  end:str   The appendix to the text to print (line breaking is default)
@@ -67,13 +49,13 @@ def flush():
 
 
 '''
-Mane class
+Main class
 
 @dependency  util-linux::uuidgen
 '''
 class SysRSS:
     '''
-    Mane method and constructor
+    Main method and constructor
     '''
     def __init__(self):
         self.root = os.getenv('HOME') + '/.sysrss/'
@@ -315,8 +297,7 @@ class Site:
 
 
 '''
-Execute mane method if started using this file
+Execute main method if started using this file
 '''
 if __name__ == '__main__':
     SysRSS()
-
