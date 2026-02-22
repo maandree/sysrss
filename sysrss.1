@@ -1,15 +1,15 @@
-.TH SYSRSS 1
+.TH SYSRSS 1 SYSRSS
 .SH NAME
-sysrss \- Let your system generate a maintenance notification RSS
+sysrss \- Let your system generate a maintenance notification RSS feed
 
 .SH SYNOPSIS
 .B sysrss
 
 .SH DESCRIPTION
 .B sysrss
-lets the user setup routines, written in Python 3, that run
-periodically to generate entires in an RSS feed that the use
-can syndicate to in his RSS aggregator (e-mail client can
+lets the user set up routines, written in Python 3, that run
+periodically to generate entries in an RSS feed that the user
+can syndicate to in his RSS aggregator (an e-mail client can
 usually do this).
 .PP
 .B sysrss
@@ -30,19 +30,19 @@ None.
 .TP
 .IB $HOME /.sysrss/sites
 Created when the program is started for the first time by the user.
-It contains the tasks that shall be ran periodically. It's a Python 3.
+It contains the tasks that shall be run periodically. It is a Python 3 file.
 
 To add a task, write a function that doesn't have any parameters but
 returns a string, then run
 .IR "self.sites.append(Site(title, interval, function))" ,
 where
 .I title
-is the that the generated RSS news item should have,
+is what the generated RSS news item should have,
 .I interval
 is the number of minutes between each run of the job, and
 .I function
 is the name of your function.
-The string returned by the your function shall be the
+The string returned by your function shall be the
 message of the generated RSS news item. If the empty string
 is returned, no news item is generated.
 

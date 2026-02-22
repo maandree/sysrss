@@ -5,9 +5,10 @@ SYNOPSIS
 	sysrss
 
 DESCRIPTION
-	sysrss lets the user setup routines, written in Python 3, that run
-	periodically to generate entires in an RSS feed that the use can
-	syndicate to in his RSS aggregator (e-mail client can usually do this).
+	sysrss lets the user set up routines, written in Python 3, that run
+	periodically to generate entries in an RSS feed that the user can
+	syndicate to in his RSS aggregator (an e-mail client can usually
+	do this).
 
 	sysrss runs in the foreground, and should be daemonised externally
 	(unless you actually want it in the foreground).
@@ -24,15 +25,15 @@ OPERANDS
 FILES
 	$HOME/.sysrss/sites
 		Created when the program is started for the first time by the
-		user. It contains the tasks that shall be ran periodically.
-		It's a Python 3.
+		user. It contains the tasks that shall be run periodically.
+		It is a Python 3 file.
 
 		To add a task, write a function that doesn't have any parameters
 		but returns a string, then run self.sites.append(Site(title,
-		interval, function)), where title is the that the generated RSS
+		interval, function)), where title is what the generated RSS
 		news item should have, interval is the number of minutes between
 		each run of the job, and function is the name of your function.
-		The string returned by the your function shall be the message of
+		The string returned by your function shall be the message of
 		the generated RSS news item. If the empty string is returned, no
 		news item is generated.
 

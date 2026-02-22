@@ -103,7 +103,7 @@ class SysRSS:
         if not os.path.isfile(self.root + 'log'):
             with open(self.root + 'log', 'wb') as file:
                 file.flush()
-            printf('Created log file, %s, it contains ever thing that have ever happend, ever.\n', self.root + 'log')
+            printf('Created log file, %s, it contains everthing that has ever happend, ever.\n', self.root + 'log')
             flush()
         
         if not os.path.isfile(self.root + 'maintenance.rss'):
@@ -123,7 +123,7 @@ class SysRSS:
                 file.write('</rss>\n'.encode('utf-8'))
                 file.write('\n'.encode('utf-8'))
                 file.flush()
-            printf('Created rss file, %s, your should set you news feed aggregator to syndicate this file.\n', self.root + 'maintenance.rss')
+            printf('Created rss file, %s, you should set your news feed aggregator to syndicate this file.\n', self.root + 'maintenance.rss')
             flush()
             self.pubdate = date
             self.publish('Welcome to SysRSS', 'This is going to be so awesome! 😄 \n\nEx animo\nSysRSS\n\n')
@@ -156,13 +156,13 @@ class SysRSS:
                 file.write('# -*- mode: python, coding: utf-8  -*-\n'.encode('utf-8'))
                 file.write('\n'.encode('utf-8'))
                 file.write('# self.sites (alternatively sites) is a list that you\n'.encode('utf-8'))
-                file.write('# should fill with Site:s, a site descripts a subsystem\n'.encode('utf-8'))
+                file.write('# should fill with Site:sM a site describes a subsystem\n'.encode('utf-8'))
                 file.write('# that generates updates. Site\'s constructor takes 3\n'.encode('utf-8'))
                 file.write('# arguments: name, interval, implementation. The first\n'.encode('utf-8'))
-                file.write('# `name` is the name of the subsystme, it is displayed\n'.encode('utf-8'))
+                file.write('# `name` is the name of the subsystem; it is displayed\n'.encode('utf-8'))
                 file.write('# as the title on all updates. `interval` is the number\n'.encode('utf-8'))
-                file.write('# is minutes between update checks. `implementation` is\n'.encode('utf-8'))
-                file.write('# function or functor that returns an update message,\n'.encode('utf-8'))
+                file.write('# of minutes between update checks. `implementation` is\n'.encode('utf-8'))
+                file.write('# a function or functor that returns an update message,\n'.encode('utf-8'))
                 file.write('# or an empty string if there are no updates.\n'.encode('utf-8'))
                 file.write('\n'.encode('utf-8'))
                 file.flush()
@@ -185,7 +185,7 @@ class SysRSS:
         with open(self.root + 'log', 'ab') as file:
             file.write(addendum)
             file.flush()
-        printf('The feed log as been updated with %s.\n', system)
+        printf('The feed log has been updated with %s.\n', system)
         
         with open(self.root + 'tmp', 'wb') as file:
             file.write('<?xml version="1.0" encoding="utf-8"?>\n'.encode('utf-8'))
@@ -203,7 +203,7 @@ class SysRSS:
             file.write('\n'.encode('utf-8'))
             file.flush()
         Popen(['mv', self.root + 'tmp', self.root + 'maintenance.rss']).wait()
-        printf('The feed as been updated with %s.\n', system)
+        printf('The feed has been updated with %s.\n', system)
     
     
     '''
